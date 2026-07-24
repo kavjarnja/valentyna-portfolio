@@ -1,0 +1,10 @@
+node_modules
+dist
+.astro
+.vercel
+.pnpm-store
+outputs
+work
+Valentyna-Portfolio
+.DS_Store
+*.log

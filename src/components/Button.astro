@@ -1,0 +1,52 @@
+---
+import Icon from "./Icon.astro";
+
+interface Props {
+  href?: string;
+  label: string;
+  variant?: "shape" | "outline" | "link" | "icon";
+  size?: "48" | "36" | "40";
+  icon?: string;
+  class?: string;
+  ariaLabel?: string;
+  target?: string;
+  rel?: string;
+  download?: boolean | string;
+}
+
+const {
+  href,
+  label,
+  variant = "shape",
+  size = "48",
+  icon,
+  class: className = "",
+  ariaLabel,
+  target,
+  rel,
+  download,
+} = Astro.props;
+
+const classes = ["button", `button-${variant}`, `button-${size}`, className].join(" ");
+const attrs = { class: classes, "aria-label": ariaLabel ?? label };
+const linkAttrs = {
+  ...attrs,
+  target,
+  rel: rel ?? (target === "_blank" ? "noreferrer" : undefined),
+  download,
+};
+---
+
+{
+  href ? (
+    <a href={href} {...linkAttrs}>
+      {icon && <Icon name={icon} />}
+      <span>{label}</span>
+    </a>
+  ) : (
+    <button type="button" {...attrs}>
+      {icon && <Icon name={icon} />}
+      <span>{label}</span>
+    </button>
+  )
+}

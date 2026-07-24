@@ -1,0 +1,27 @@
+---
+import Button from "./Button.astro";
+
+interface Props {
+  image: string;
+  label: string;
+  title: string;
+  subtitle: string;
+  description: string;
+  href: string;
+}
+
+const { image, label, title, subtitle, description, href } = Astro.props;
+---
+
+<article class="case-card">
+  <div class="case-card__image">
+    <img src={image} alt={`${title} case study preview`} loading="lazy" />
+  </div>
+  <div class="case-card__body">
+    <span class="label-pill">{label}</span>
+    <h3>{title}</h3>
+    <p class="case-card__subtitle">{subtitle}</p>
+    <p class="case-card__description">{description}</p>
+    <Button href={href} label="View Case Study" variant="link" icon="arrow-right" target="_blank" />
+  </div>
+</article>

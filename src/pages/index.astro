@@ -1,0 +1,187 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Button from "../components/Button.astro";
+import CaseCard from "../components/CaseCard.astro";
+import Icon from "../components/Icon.astro";
+import RecommendationSlider from "../components/RecommendationSlider.astro";
+import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } from "../data/site";
+---
+
+<BaseLayout
+  title="Valentyna Mylashevska - Product UX/UI Designer"
+  description="Product UX/UI Designer portfolio by Valentyna Mylashevska."
+>
+  <header class="site-header">
+    <nav aria-label="Primary navigation">
+      {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+    </nav>
+    <div class="header-actions">
+      <Button href={links.cv} label="Download CV" size="36" download="Mylashevska-V-CV.pdf" />
+      <details class="mobile-menu">
+        <summary aria-label="Open navigation menu">
+          <Icon name="burger-menu" />
+        </summary>
+        <nav aria-label="Mobile navigation">
+          {navItems.map((item) => <a href={item.href}>{item.label}</a>)}
+        </nav>
+      </details>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section-hero" id="top">
+      <div class="radial radial-purple hero-radial-1" aria-hidden="true"></div>
+      <div class="radial radial-pink hero-radial-2" aria-hidden="true"></div>
+      <div class="radial radial-pink hero-radial-3" aria-hidden="true"></div>
+      <div class="hero__inner">
+        <div class="hero__avatar">
+          <img src={assets.avatar} alt="Valentyna Mylashevska portrait" />
+        </div>
+        <div class="hero__content">
+          <div class="availability">
+            <span></span>
+            Available for new projects
+          </div>
+          <h1>
+            <span>Valentyna</span>
+            <span>Mylashevska</span>
+          </h1>
+          <p class="hero__role">PRODUCT UX/UI DESIGNER</p>
+          <div class="hero__actions">
+            <Button href="#case-studies" label="View Case Studies" icon="arrow-right" />
+            <Button href={links.cv} label="Download CV" variant="outline" icon="download" download="Mylashevska-V-CV.pdf" />
+            <Button href={links.linkedin} label="LinkedIn" variant="link" icon="linkedin" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-band" aria-label="Portfolio statistics">
+      <div class="radial radial-pink-rich stats-radial" aria-hidden="true"></div>
+      {stats.map((item) => (
+        <div class="stat-item">
+          <strong>{item.value}</strong>
+          <span>{item.label}</span>
+        </div>
+      ))}
+    </section>
+
+    <section class="section about-section" id="about">
+      <div class="section-inner about-grid">
+        <div class="radial radial-pink-rich about-radial-pink" aria-hidden="true"></div>
+        <div class="radial radial-purple about-radial-purple" aria-hidden="true"></div>
+        <div class="about-heading">
+          <span class="ghost-text">thinking</span>
+          <h2>Product thinking over pixel <span>pushing</span></h2>
+          <div class="tags">
+            {["Marketplace", "GovTech", "B2B", "Startups", "AI-assisted Design", "Design Systems"].map((tag) => <span>{tag}</span>)}
+          </div>
+        </div>
+        <div class="about-copy">
+          <p>I'm a Product Designer with experience building products in marketplaces, GovTech, B2B platforms, and startups.</p>
+          <p>10+ years in digital design, including 6+ years in Product Design. I help product teams transform research into intuitive experiences, scalable design systems, and measurable product outcomes.</p>
+          <p>My work combines user research, interaction design, design systems, and product thinking. I enjoy turning complex problems into simple experiences-from validating ideas and mapping user journeys to building scalable interfaces that help both users and businesses succeed.</p>
+          <blockquote>
+            <strong>For me, good design isn't decoration</strong>
+            <span>It's making the right thing easier to understand, easier to use, and more valuable for everyone involved.</span>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section work-section">
+      <div class="radial radial-purple work-radial-1" aria-hidden="true"></div>
+      <div class="radial radial-pink work-radial-2" aria-hidden="true"></div>
+      <span class="ghost-text work-ghost">how I work</span>
+      <div class="section-inner work-grid">
+        <div class="work-cards">
+          {workCards.map((card) => (
+            <article class={`work-card ${card.featured ? "is-featured" : ""}`}>
+              <div class="work-card__icon"><Icon name={card.icon} /></div>
+              <h3>{card.title}</h3>
+              <p>{card.body}</p>
+            </article>
+          ))}
+        </div>
+        <h2>Every project is different, my approach stays <span>consistent</span></h2>
+      </div>
+    </section>
+
+    <section class="section case-section" id="case-studies">
+      <div class="radial radial-pink case-radial-1" aria-hidden="true"></div>
+      <div class="radial radial-purple case-radial-2" aria-hidden="true"></div>
+      <span class="ghost-text case-ghost">Case Studies</span>
+      <div class="section-inner">
+        <h2 class="section-title">Featured Case <span>Studies</span></h2>
+        <div class="case-grid">
+          {caseStudies.map((item, index) => (
+            <CaseCard image={assets.caseStudies[index]} {...item} />
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section recommendations-section" id="recommendations">
+      <div class="radial radial-purple rec-radial-1" aria-hidden="true"></div>
+      <div class="radial radial-pink rec-radial-2" aria-hidden="true"></div>
+      <span class="ghost-text rec-ghost">RECOMMENDATIONS</span>
+      <div class="section-inner">
+        <h2 class="section-title">What colleagues <span>say</span></h2>
+        <RecommendationSlider />
+      </div>
+    </section>
+
+    <section class="section gallery-section" id="graphic-design">
+      <div class="radial radial-pink gallery-radial" aria-hidden="true"></div>
+      <div class="section-inner">
+        <h2 class="section-title gallery-title">Creativity <span>Beyond</span> Interfaces</h2>
+        <p class="gallery-intro">While Product Design is my primary focus, I also enjoy creating visual identities and marketing assets that strengthen product communication.</p>
+        <div class="gallery-rows">
+          {galleryRows.map((row, rowIndex) => (
+              <div class={`gallery-row ${row.layout === "large-grid" ? "is-reversed" : ""}`}>
+                {row.layout === "large-grid" && (
+                  <figure class="gallery-tile gallery-tile-large">
+                    <img src={row.large} alt={`Graphic design feature ${rowIndex + 1}`} loading="lazy" />
+                  </figure>
+                )}
+                <div class="gallery-grid">
+                  {row.tiles.map((image, index) => (
+                    <figure class="gallery-tile">
+                      <img src={image} alt={`Graphic design work ${rowIndex * 4 + index + 1}`} loading="lazy" />
+                    </figure>
+                  ))}
+                </div>
+                {row.layout === "grid-large" && (
+                  <figure class="gallery-tile gallery-tile-large">
+                    <img src={row.large} alt={`Graphic design feature ${rowIndex + 1}`} loading="lazy" />
+                  </figure>
+                )}
+              </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <span class="ghost-text contact-ghost">let's talk</span>
+      <div class="section-inner contact-inner">
+        <h2>Let's build great <span>products</span> together</h2>
+        <p>Whether you're building a new product, improving an existing one, or looking for a Product Designer to join your team - I'd love to hear from you</p>
+        <div class="contact-actions">
+          <Button href={links.email} label="Send an Email" icon="mail" />
+          <Button href={links.linkedin} label="LinkedIn" variant="outline" icon="linkedin" />
+          <Button href={links.telegram} label="Telegram" variant="outline" icon="telegram" />
+          <Button href={links.cv} label="Download CV" variant="outline" icon="download" download="Mylashevska-V-CV.pdf" />
+        </div>
+      </div>
+      <footer class="footer">
+        <p>© 2026 Valentyna Mylashevska · Product Designer</p>
+        <div class="footer-socials">
+          <a href={links.linkedin} aria-label="LinkedIn"><Icon name="linkedin" /></a>
+          <a href={links.telegram} aria-label="Telegram"><Icon name="telegram" /></a>
+          <a href={links.email} aria-label="Email"><Icon name="mail" /></a>
+        </div>
+      </footer>
+    </section>
+  </main>
+</BaseLayout>

@@ -1,0 +1,72 @@
+---
+import Icon from "./Icon.astro";
+import { recommendations } from "../data/site";
+---
+
+<div class="recommendations-slider" data-slider>
+  <div class="recommendations-track" aria-live="polite">
+    {recommendations.map((item, index) => (
+      <article class={`recommendation-card ${index === 2 ? "is-active" : ""}`} data-slide={index} data-position={index === 1 ? "prev" : index === 2 ? "active" : index === 3 ? "next" : "hidden"}>
+        <div class="quote-mark"><Icon name="quotes" /></div>
+        <p>{item.quote}</p>
+        <footer>
+          <strong>{item.author}</strong>
+          <span>{item.role}</span>
+        </footer>
+      </article>
+    ))}
+  </div>
+
+  <div class="slider-dots" aria-label="Recommendation pages">
+    {recommendations.map((_, index) => (
+      <button type="button" class={index === 2 ? "is-active" : ""} data-dot={index} aria-label={`Go to recommendation ${index + 1}`}></button>
+    ))}
+  </div>
+
+  <div class="slider-controls">
+    <button type="button" class="slider-button" data-prev aria-label="Previous recommendation">
+      <Icon name="arrow-left" />
+    </button>
+    <span data-count>03 / 06</span>
+    <button type="button" class="slider-button" data-next aria-label="Next recommendation">
+      <Icon name="chevron-right" />
+    </button>
+  </div>
+</div>
+
+<script>
+  const slider = document.querySelector("[data-slider]");
+  if (slider) {
+    const slides = [...slider.querySelectorAll("[data-slide]")];
+    const dots = [...slider.querySelectorAll("[data-dot]")];
+    const count = slider.querySelector("[data-count]");
+    let active = 2;
+
+    const update = () => {
+      const previous = (active - 1 + slides.length) % slides.length;
+      const next = (active + 1) % slides.length;
+      slides.forEach((slide, index) => {
+        const position = index === active ? "active" : index === previous ? "prev" : index === next ? "next" : "hidden";
+        slide.dataset.position = position;
+        slide.classList.toggle("is-active", index === active);
+      });
+      dots.forEach((dot, index) => dot.classList.toggle("is-active", index === active));
+      if (count) count.textContent = `${String(active + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+    };
+
+    slider.querySelector("[data-prev]")?.addEventListener("click", () => {
+      active = (active - 1 + slides.length) % slides.length;
+      update();
+    });
+
+    slider.querySelector("[data-next]")?.addEventListener("click", () => {
+      active = (active + 1) % slides.length;
+      update();
+    });
+
+    dots.forEach((dot, index) => dot.addEventListener("click", () => {
+      active = index;
+      update();
+    }));
+  }
+</script>

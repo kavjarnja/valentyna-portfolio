@@ -1,0 +1,48 @@
+---
+interface Props {
+  name: string;
+}
+
+const { name } = Astro.props;
+const iconSources: Record<string, string> = {
+  search: "/assets/icons/search.svg",
+  "systems-thinking": "/assets/icons/systems-thinking.svg",
+  ai: "/assets/icons/ai.svg",
+  users: "/assets/icons/users.svg",
+  download: "/assets/icons/download.svg",
+  linkedin: "/assets/icons/linkedin.svg",
+  quotes: "/assets/icons/quotes.svg",
+  "arrow-left": "/assets/icons/arrow-left.svg",
+  "arrow-right": "/assets/icons/arrow-long-right.svg",
+  "chevron-right": "/assets/icons/arrow-right.svg",
+  "arrow-long-right": "/assets/icons/arrow-long-right.svg",
+  telegram: "/assets/icons/telegram.svg",
+  mail: "/assets/icons/mail.svg",
+  "burger-menu": "/assets/icons/burger-menu.svg",
+};
+
+const iconSizes: Record<string, { width: number; height: number }> = {
+  search: { width: 15.901, height: 15.901 },
+  "systems-thinking": { width: 16.512, height: 16.499 },
+  ai: { width: 16.5, height: 16.5 },
+  users: { width: 16.5, height: 15 },
+  download: { width: 12.75, height: 12.75 },
+  linkedin: { width: 14, height: 13.375 },
+  quotes: { width: 15.84, height: 12.384 },
+  "arrow-left": { width: 6.5, height: 11.5 },
+  "arrow-right": { width: 10.667, height: 10.667 },
+  "chevron-right": { width: 24, height: 24 },
+  "arrow-long-right": { width: 10.667, height: 10.667 },
+  telegram: { width: 14.835, height: 14.834 },
+  mail: { width: 14.833, height: 12.167 },
+  "burger-menu": { width: 15.5, height: 11.5 },
+};
+
+const source = iconSources[name];
+const size = iconSizes[name] ?? { width: 16, height: 16 };
+const style = `--icon-url: url("${source}"); --icon-width: ${size.width}px; --icon-height: ${size.height}px`;
+---
+
+<span class={`icon icon-${name}`} aria-hidden="true">
+  {source && <span class="icon-mask" style={style}></span>}
+</span>
