@@ -1,5 +1,5 @@
 ---
-import Button from "./Button.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
   image: string;
@@ -13,7 +13,7 @@ interface Props {
 const { image, label, title, subtitle, description, href } = Astro.props;
 ---
 
-<article class="case-card">
+<a class="case-card" href={href} target="_blank" rel="noreferrer" aria-label={`View ${title} case study`}>
   <div class="case-card__image">
     <img src={image} alt={`${title} case study preview`} loading="lazy" />
   </div>
@@ -22,6 +22,9 @@ const { image, label, title, subtitle, description, href } = Astro.props;
     <h3>{title}</h3>
     <p class="case-card__subtitle">{subtitle}</p>
     <p class="case-card__description">{description}</p>
-    <Button href={href} label="View Case Study" variant="link" icon="arrow-right" target="_blank" />
+    <span class="button button-link button-48 case-card__cta">
+      <Icon name="arrow-right" />
+      <span>View Case Study</span>
+    </span>
   </div>
-</article>
+</a>

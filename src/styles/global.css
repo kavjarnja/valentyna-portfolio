@@ -202,6 +202,10 @@ button {
   color: var(--secondary-500);
 }
 
+.hero__actions .button-link {
+  color: var(--content-text-primary);
+}
+
 .button-36 {
   height: 36px;
   padding: 8px 16px;
@@ -429,11 +433,11 @@ p {
   width: 216px;
 }
 
-.stat-item:nth-child(3) {
-  width: 316px;
+.stat-item--systems {
+  width: 360px;
 }
 
-.stat-item:nth-child(4) {
+.stat-item--domains {
   width: 256px;
 }
 
@@ -686,11 +690,13 @@ p {
 }
 
 .case-card {
+  display: block;
   min-height: 596px;
   overflow: hidden;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-card);
   background: rgba(255, 255, 255, 0.1);
+  color: inherit;
   backdrop-filter: blur(4px);
   transition:
     background var(--transition-card-hover-duration) var(--transition-card-hover-easing),
@@ -752,7 +758,7 @@ p {
   line-height: 22px;
 }
 
-.case-card .button {
+.case-card__cta {
   margin-top: 16px;
 }
 
@@ -1235,8 +1241,8 @@ p {
   }
 
   .stat-item,
-  .stat-item:nth-child(3),
-  .stat-item:nth-child(4) {
+  .stat-item--systems,
+  .stat-item--domains {
     width: min(320px, 100%);
   }
 

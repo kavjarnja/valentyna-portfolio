@@ -59,9 +59,18 @@ import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } f
     <section class="stats-band" aria-label="Portfolio statistics">
       <div class="radial radial-pink-rich stats-radial" aria-hidden="true"></div>
       {stats.map((item) => (
-        <div class="stat-item">
+        <div class={`stat-item ${item.value === "350+" ? "stat-item--systems" : item.value === "4" ? "stat-item--domains" : ""}`}>
           <strong>{item.value}</strong>
-          <span>{item.label}</span>
+          <span>
+            {item.value === "350+" ? (
+              <>
+                Design system<br />
+                components created
+              </>
+            ) : (
+              item.label
+            )}
+          </span>
         </div>
       ))}
     </section>
