@@ -92,6 +92,12 @@ button {
   white-space: nowrap;
 }
 
+.site-header nav a:hover,
+.site-header nav a:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
 .header-actions {
   display: flex;
   align-items: center;
@@ -159,6 +165,8 @@ button {
 
 .mobile-menu nav a:hover {
   background: rgba(255, 255, 255, 0.1);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .button {
@@ -200,6 +208,12 @@ button {
 .button-link {
   padding: 0;
   color: var(--secondary-500);
+}
+
+.button-link:hover,
+.button-link:focus-visible {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .hero__actions .button-link {
@@ -706,6 +720,12 @@ p {
 .case-card:hover {
   border-color: var(--secondary-500);
   background: rgba(255, 255, 255, 0.15);
+}
+
+.case-card:hover .case-card__cta span,
+.case-card:focus-visible .case-card__cta span {
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .case-card__image {
