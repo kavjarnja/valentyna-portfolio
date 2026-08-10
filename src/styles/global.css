@@ -909,7 +909,8 @@ p {
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: var(--radius-card);
   background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   color: var(--content-text-secondary);
   opacity: 0;
   pointer-events: none;
@@ -927,7 +928,7 @@ p {
 
 .recommendation-card[data-position="prev"] {
   z-index: 1;
-  opacity: 0.72;
+  opacity: 1;
   transform: translateX(calc(-50% - var(--recommendation-side-offset))) scale(var(--recommendation-side-scale));
 }
 
@@ -944,7 +945,7 @@ p {
 
 .recommendation-card[data-position="next"] {
   z-index: 1;
-  opacity: 0.72;
+  opacity: 1;
   transform: translateX(calc(-50% + var(--recommendation-side-offset))) scale(var(--recommendation-side-scale));
 }
 
