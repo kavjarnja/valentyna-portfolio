@@ -875,7 +875,7 @@ p {
 
 .rec-ghost {
   left: 50%;
-  top: 138px;
+  top: 178px;
   transform: translateX(-50%);
   font-size: 116px;
 }
@@ -889,11 +889,19 @@ p {
   --recommendation-motion-easing: cubic-bezier(0.22, 1, 0.36, 1);
   --recommendation-side-offset: 468px;
   --recommendation-exit-offset: 760px;
-  --recommendation-side-scale: 0.94;
+  --recommendation-side-scale: 0.9;
+  --recommendation-side-depth: -96px;
+  --recommendation-exit-depth: -180px;
+  --recommendation-side-tilt: 14deg;
+  --recommendation-exit-tilt: 24deg;
+  --recommendation-drag-x: 0px;
 
   position: relative;
   min-height: 360px;
   overflow: hidden;
+  perspective: 900px;
+  perspective-origin: center;
+  transition: height 220ms ease-out;
 }
 
 .recommendation-card {
@@ -914,22 +922,49 @@ p {
   color: var(--content-text-secondary);
   opacity: 0;
   pointer-events: none;
-  transform: translateX(-50%) scale(0.9);
+  transform: translateX(-50%) translateZ(var(--recommendation-exit-depth)) scale(0.86);
   transform-origin: center;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0);
   transition:
     transform var(--recommendation-motion-duration) var(--recommendation-motion-easing),
     width var(--recommendation-motion-duration) var(--recommendation-motion-easing),
     background-color var(--recommendation-motion-duration) var(--recommendation-motion-easing),
     border-color var(--recommendation-motion-duration) var(--recommendation-motion-easing),
     color var(--recommendation-motion-duration) var(--recommendation-motion-easing),
-    opacity var(--recommendation-motion-duration) var(--recommendation-motion-easing);
-  will-change: transform, width, opacity;
+    opacity var(--recommendation-motion-duration) var(--recommendation-motion-easing),
+    box-shadow var(--recommendation-motion-duration) var(--recommendation-motion-easing);
+  will-change: transform, width, opacity, box-shadow;
+}
+
+.recommendation-card > * {
+  position: relative;
+  z-index: 1;
+}
+
+.recommendation-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.16),
+    rgba(255, 255, 255, 0) 32%,
+    rgba(0, 0, 0, 0.24) 100%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--recommendation-motion-duration) var(--recommendation-motion-easing);
 }
 
 .recommendation-card[data-position="prev"] {
   z-index: 1;
   opacity: 1;
-  transform: translateX(calc(-50% - var(--recommendation-side-offset))) scale(var(--recommendation-side-scale));
+  transform-origin: right center;
+  transform: translateX(calc(-50% - var(--recommendation-side-offset))) translateZ(var(--recommendation-side-depth)) rotateY(var(--recommendation-side-tilt)) scale(var(--recommendation-side-scale));
 }
 
 .recommendation-card[data-position="active"] {
@@ -940,23 +975,27 @@ p {
   color: var(--surface-background);
   opacity: 1;
   pointer-events: auto;
-  transform: translateX(-50%) scale(1);
+  transform-origin: center;
+  transform: translateX(-50%) translateZ(0) rotateY(0deg) scale(1);
 }
 
 .recommendation-card[data-position="next"] {
   z-index: 1;
   opacity: 1;
-  transform: translateX(calc(-50% + var(--recommendation-side-offset))) scale(var(--recommendation-side-scale));
+  transform-origin: left center;
+  transform: translateX(calc(-50% + var(--recommendation-side-offset))) translateZ(var(--recommendation-side-depth)) rotateY(calc(var(--recommendation-side-tilt) * -1)) scale(var(--recommendation-side-scale));
 }
 
 .recommendation-card[data-position="hidden-left"] {
   opacity: 0;
-  transform: translateX(calc(-50% - var(--recommendation-exit-offset))) scale(0.9);
+  transform-origin: right center;
+  transform: translateX(calc(-50% - var(--recommendation-exit-offset))) translateZ(var(--recommendation-exit-depth)) rotateY(var(--recommendation-exit-tilt)) scale(0.84);
 }
 
 .recommendation-card[data-position="hidden-right"] {
   opacity: 0;
-  transform: translateX(calc(-50% + var(--recommendation-exit-offset))) scale(0.9);
+  transform-origin: left center;
+  transform: translateX(calc(-50% + var(--recommendation-exit-offset))) translateZ(var(--recommendation-exit-depth)) rotateY(calc(var(--recommendation-exit-tilt) * -1)) scale(0.84);
 }
 
 .quote-mark {
@@ -1259,32 +1298,80 @@ p {
   }
 
   .recommendations-track {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
+    --recommendation-mobile-gap: 16px;
+
+    position: relative;
+    display: block;
+    min-height: 360px;
     height: auto;
+    touch-action: pan-y;
+    cursor: grab;
+    perspective: 620px;
+    perspective-origin: center;
+  }
+
+  .recommendations-track.is-dragging {
+    cursor: grabbing;
+  }
+
+  .recommendations-track.is-dragging .recommendation-card {
+    transition: none;
   }
 
   .recommendation-card {
-    position: static;
-    flex: 0 0 264px;
+    position: absolute;
+    top: 0;
+    left: 50%;
+    flex: none;
     display: none;
-    width: auto;
-    opacity: 0.72;
-    pointer-events: auto;
-    transform: none;
+    width: 100%;
+    opacity: var(--recommendation-card-opacity, 0);
+    pointer-events: none;
+    transform: translateX(calc(-50% + var(--recommendation-card-x, 0px))) translateZ(var(--recommendation-card-z, -180px)) rotateY(var(--recommendation-card-rotate, 0deg)) scale(var(--recommendation-card-scale, 0.82));
+    transform-origin: center;
+    box-shadow: var(--recommendation-card-shadow-x, 0px) var(--recommendation-card-shadow-y, 22px) var(--recommendation-card-shadow-blur, 44px) rgba(0, 0, 0, var(--recommendation-card-shadow-opacity, 0.18));
+  }
+
+  .recommendation-card::before {
+    opacity: var(--recommendation-card-shade, 0);
+  }
+
+  .recommendation-card[data-position="prev"],
+  .recommendation-card[data-position="active"],
+  .recommendation-card[data-position="next"],
+  .recommendation-card[data-position="hidden-left"],
+  .recommendation-card[data-position="hidden-right"] {
+    display: flex;
   }
 
   .recommendation-card[data-position="prev"],
   .recommendation-card[data-position="next"] {
-    display: none;
+    pointer-events: none;
+  }
+
+  .recommendation-card[data-position="prev"]::before,
+  .recommendation-card[data-position="hidden-left"]::before {
+    background: linear-gradient(
+      90deg,
+      rgba(0, 0, 0, 0.26),
+      rgba(255, 255, 255, 0) 62%,
+      rgba(255, 255, 255, 0.18)
+    );
+  }
+
+  .recommendation-card[data-position="next"]::before,
+  .recommendation-card[data-position="hidden-right"]::before {
+    background: linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.18),
+      rgba(255, 255, 255, 0) 38%,
+      rgba(0, 0, 0, 0.26)
+    );
   }
 
   .recommendation-card[data-position="active"] {
-    display: flex;
-    flex-basis: min(640px, 100%);
-    width: auto;
-    transform: none;
+    width: 100%;
+    pointer-events: auto;
   }
 }
 
