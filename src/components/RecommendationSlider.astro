@@ -37,14 +37,91 @@ import { recommendations } from "../data/site";
 <script>
   const slider = document.querySelector("[data-slider]");
   if (slider) {
+    const track = slider.querySelector(".recommendations-track");
     const slides = [...slider.querySelectorAll("[data-slide]")];
     const dots = [...slider.querySelectorAll("[data-dot]")];
     const count = slider.querySelector("[data-count]");
     let active = 2;
     let expandTimer;
+    let dragStartX = 0;
+    let dragX = 0;
+    let dragLastX = 0;
+    let dragLastTime = 0;
+    let dragVelocityX = 0;
+    let dragPointerId;
+    let isDragging = false;
+
+    const isMobileCarousel = () => window.matchMedia("(max-width: 1180px)").matches;
+
+    const syncTrackHeight = () => {
+      if (!track) return;
+      if (!isMobileCarousel()) {
+        track.style.removeProperty("height");
+        return;
+      }
+
+      const activeSlide = slides[active];
+      if (activeSlide) track.style.height = `${activeSlide.offsetHeight}px`;
+    };
+
+    const setDrag = (value) => {
+      dragX = value;
+      track?.style.setProperty("--recommendation-drag-x", `${dragX}px`);
+      track?.style.setProperty("--recommendation-drag-progress", `${Math.min(Math.abs(dragX) / 120, 1)}`);
+      syncMobileMotion();
+    };
+
+    const getSignedOffset = (index) => {
+      const rawOffset = (index - active + slides.length) % slides.length;
+      return rawOffset > slides.length / 2 ? rawOffset - slides.length : rawOffset;
+    };
+
+    const syncMobileMotion = () => {
+      if (!track || !isMobileCarousel()) {
+        slides.forEach((slide) => {
+          slide.style.removeProperty("--recommendation-card-x");
+          slide.style.removeProperty("--recommendation-card-z");
+          slide.style.removeProperty("--recommendation-card-rotate");
+          slide.style.removeProperty("--recommendation-card-scale");
+          slide.style.removeProperty("--recommendation-card-opacity");
+          slide.style.removeProperty("--recommendation-card-shade");
+          slide.style.removeProperty("--recommendation-card-shadow-x");
+          slide.style.removeProperty("--recommendation-card-shadow-y");
+          slide.style.removeProperty("--recommendation-card-shadow-blur");
+          slide.style.removeProperty("--recommendation-card-shadow-opacity");
+        });
+        return;
+      }
+
+      const itemOffset = (track.clientWidth || 320) + 16;
+      slides.forEach((slide, index) => {
+        const visualOffset = getSignedOffset(index) + dragX / itemOffset;
+        const clampedOffset = Math.max(Math.min(visualOffset, 2), -2);
+        const depth = Math.min(Math.abs(clampedOffset), 1.8);
+        const scale = Math.max(1 - depth * 0.15, 0.72);
+        const opacity = Math.max(1 - Math.max(depth - 1, 0) * 0.85, 0);
+
+        slide.style.setProperty("--recommendation-card-x", `${clampedOffset * itemOffset}px`);
+        slide.style.setProperty("--recommendation-card-z", `${depth * -220}px`);
+        slide.style.setProperty("--recommendation-card-rotate", `${clampedOffset * -92}deg`);
+        slide.style.setProperty("--recommendation-card-scale", `${scale}`);
+        slide.style.setProperty("--recommendation-card-opacity", `${opacity}`);
+        slide.style.setProperty("--recommendation-card-shade", `${Math.min(depth * 0.42, 0.64)}`);
+        slide.style.setProperty("--recommendation-card-shadow-x", `${clampedOffset * -18}px`);
+        slide.style.setProperty("--recommendation-card-shadow-y", `${18 + depth * 16}px`);
+        slide.style.setProperty("--recommendation-card-shadow-blur", `${32 + depth * 30}px`);
+        slide.style.setProperty("--recommendation-card-shadow-opacity", `${0.12 + depth * 0.16}`);
+      });
+    };
+
+    const goTo = (index) => {
+      active = (index + slides.length) % slides.length;
+      update();
+    };
 
     const update = () => {
       window.clearTimeout(expandTimer);
+      setDrag(0);
 
       slides.forEach((slide, index) => {
         const offset = (index - active + slides.length) % slides.length;
@@ -67,25 +144,76 @@ import { recommendations } from "../data/site";
       });
       dots.forEach((dot, index) => dot.classList.toggle("is-active", index === active));
       if (count) count.textContent = `${String(active + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+      syncMobileMotion();
+      requestAnimationFrame(syncTrackHeight);
 
       expandTimer = window.setTimeout(() => {
         slides[active]?.classList.add("is-expanded");
+        syncTrackHeight();
       }, 420);
     };
 
     slider.querySelector("[data-prev]")?.addEventListener("click", () => {
-      active = (active - 1 + slides.length) % slides.length;
-      update();
+      goTo(active - 1);
     });
 
     slider.querySelector("[data-next]")?.addEventListener("click", () => {
-      active = (active + 1) % slides.length;
-      update();
+      goTo(active + 1);
     });
 
     dots.forEach((dot, index) => dot.addEventListener("click", () => {
-      active = index;
-      update();
+      goTo(index);
     }));
+
+    track?.addEventListener("pointerdown", (event) => {
+      if (!isMobileCarousel() || event.pointerType === "mouse" && event.button !== 0) return;
+      isDragging = true;
+      dragStartX = event.clientX;
+      dragLastX = event.clientX;
+      dragLastTime = event.timeStamp;
+      dragVelocityX = 0;
+      dragPointerId = event.pointerId;
+      window.clearTimeout(expandTimer);
+      slides[active]?.classList.remove("is-expanded");
+      track.classList.add("is-dragging");
+      track.setPointerCapture?.(event.pointerId);
+    });
+
+    track?.addEventListener("pointermove", (event) => {
+      if (!isDragging || event.pointerId !== dragPointerId) return;
+      const elapsed = Math.max(event.timeStamp - dragLastTime, 1);
+      dragVelocityX = (event.clientX - dragLastX) / elapsed;
+      dragLastX = event.clientX;
+      dragLastTime = event.timeStamp;
+      const maxDrag = Math.min((track.clientWidth || 320) * 0.46, 190);
+      const nextDragX = Math.max(Math.min(event.clientX - dragStartX, maxDrag), -maxDrag);
+      setDrag(nextDragX);
+    });
+
+    const finishDrag = (event) => {
+      if (!isDragging || event.pointerId !== dragPointerId) return;
+      isDragging = false;
+      dragPointerId = undefined;
+      track?.classList.remove("is-dragging");
+      track?.releasePointerCapture?.(event.pointerId);
+
+      const threshold = Math.min((track?.clientWidth || 320) * 0.2, 82);
+      const velocityThreshold = 0.5;
+      if (dragX <= -threshold || dragVelocityX <= -velocityThreshold) {
+        goTo(active + 1);
+      } else if (dragX >= threshold || dragVelocityX >= velocityThreshold) {
+        goTo(active - 1);
+      } else {
+        update();
+      }
+    };
+
+    track?.addEventListener("pointerup", finishDrag);
+    track?.addEventListener("pointercancel", finishDrag);
+    window.addEventListener("resize", () => {
+      syncMobileMotion();
+      syncTrackHeight();
+    });
+    update();
   }
 </script>
