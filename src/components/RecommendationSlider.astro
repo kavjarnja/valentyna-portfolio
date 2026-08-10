@@ -6,7 +6,7 @@ import { recommendations } from "../data/site";
 <div class="recommendations-slider" data-slider>
   <div class="recommendations-track" aria-live="polite">
     {recommendations.map((item, index) => (
-      <article class={`recommendation-card ${index === 2 ? "is-active" : ""}`} data-slide={index} data-position={index === 1 ? "prev" : index === 2 ? "active" : index === 3 ? "next" : "hidden"}>
+      <article class={`recommendation-card ${index === 2 ? "is-active is-expanded" : ""}`} data-slide={index} data-position={index === 0 ? "hidden-left" : index === 1 ? "prev" : index === 2 ? "active" : index === 3 ? "next" : index === 4 ? "hidden-right" : "hidden"}>
         <div class="quote-mark"><Icon name="quotes" /></div>
         <p>{item.quote}</p>
         <footer>
@@ -41,17 +41,36 @@ import { recommendations } from "../data/site";
     const dots = [...slider.querySelectorAll("[data-dot]")];
     const count = slider.querySelector("[data-count]");
     let active = 2;
+    let expandTimer;
 
     const update = () => {
-      const previous = (active - 1 + slides.length) % slides.length;
-      const next = (active + 1) % slides.length;
+      window.clearTimeout(expandTimer);
+
       slides.forEach((slide, index) => {
-        const position = index === active ? "active" : index === previous ? "prev" : index === next ? "next" : "hidden";
+        const offset = (index - active + slides.length) % slides.length;
+        const position =
+          offset === 0
+            ? "active"
+            : offset === 1
+              ? "next"
+              : offset === slides.length - 1
+                ? "prev"
+                : offset === 2
+                  ? "hidden-right"
+                  : offset === slides.length - 2
+                    ? "hidden-left"
+                    : "hidden";
         slide.dataset.position = position;
-        slide.classList.toggle("is-active", index === active);
+        const isActive = index === active;
+        slide.classList.toggle("is-active", isActive);
+        if (!isActive) slide.classList.remove("is-expanded");
       });
       dots.forEach((dot, index) => dot.classList.toggle("is-active", index === active));
       if (count) count.textContent = `${String(active + 1).padStart(2, "0")} / ${String(slides.length).padStart(2, "0")}`;
+
+      expandTimer = window.setTimeout(() => {
+        slides[active]?.classList.add("is-expanded");
+      }, 420);
     };
 
     slider.querySelector("[data-prev]")?.addEventListener("click", () => {
