@@ -139,11 +139,11 @@ export const caseStudies = [
     href: "https://app.notion.com/p/MVP-Karincagibi-23159807bfac80958a9ce409bc51328e",
   },
   {
-    label: "Trust & Onboarding",
-    title: "Diia Verification",
-    subtitle: "Making specialist verification simple and trustworthy",
+    label: "Product Design & Systems",
+    title: "Kabanchik Product Design",
+    subtitle: "Scaling a services marketplace across web and mobile",
     description:
-      "Designed a cross-device identity verification flow with fallback scenarios, trust-focused UX copy, and onboarding improvements to increase successful activation",
+      "Led product design across trust & safety, payments, specialist tools, user research, design systems, and brand evolution - from key user flows to a cross-platform system of 200+ components",
     href: "https://app.notion.com/p/Kabanchik-3a659807bfac80edb4c3d64e07c0888d",
   },
   {
