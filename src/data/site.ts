@@ -147,12 +147,12 @@ export const caseStudies = [
     href: "https://app.notion.com/p/Kabanchik-3a659807bfac80edb4c3d64e07c0888d",
   },
   {
-    label: "Pricing Validation",
-    title: "Karincagibi Monetization",
-    subtitle: "Testing willingness to pay before development",
+    label: "Product Design · 0→1",
+    title: "Traijo",
+    subtitle: "Turning a wellness marketplace idea into an MVP",
     description:
-      "Validated monetization hypotheses through competitor research, pricing experiments, and fake-door testing before investing in full implementation",
-    href: "https://app.notion.com/p/Karincagibi-23159807bfac802aab85f8c6f0f7d9be",
+      "I shaped Traijo from early research and product strategy to a development-ready experience, covering the marketplace, practitioner workspace, design system, and AI-assisted tools",
+    href: "https://docs.google.com/presentation/d/1ytQegK9FC-UhwF8X1f0l6u9smFwpOQ65e0rQtCGuHzM/edit?usp=sharing",
   },
   {
     label: "Volunteer Platform",
