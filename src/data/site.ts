@@ -9,9 +9,9 @@ export const assets = {
   avatar: "/assets/hero/avatar-photoroom.png",
   caseStudies: [
     "/assets/case-studies/hyply.png",
+    "/assets/case-studies/karincagibi-monetization.png",
     "/assets/case-studies/karincagibi-mvp.png",
     "/assets/case-studies/diia-verification.png",
-    "/assets/case-studies/karincagibi-monetization.png",
     "/assets/case-studies/pidmoha-request-flow.png",
     "/assets/case-studies/volonter-by-prom.png",
   ],
@@ -84,8 +84,8 @@ export const galleryRows = [
 
 export const navItems = [
   { label: "About", href: "#about" },
-  { label: "Study Cases", href: "#case-studies" },
-  { label: "Recomendations", href: "#recommendations" },
+  { label: "Case Studies", href: "#case-studies" },
+  { label: "Recommendations", href: "#recommendations" },
   { label: "Graphic Design", href: "#graphic-design" },
   { label: "Contact", href: "#contact" },
 ];
@@ -93,7 +93,7 @@ export const navItems = [
 export const stats = [
   { value: "10+", label: "Years in digital design" },
   { value: "6+", label: "Years in Product Design" },
-  { value: "350+", label: "Design system components created" },
+  { value: "350+", label: "Design system components" },
   { value: "4", label: "Domains: Marketplace, GovTech, B2B, Startups" },
 ];
 
@@ -131,6 +131,14 @@ export const caseStudies = [
     href: "https://docs.google.com/presentation/d/1ZieypG_RmCKcm4VVuQNRUEBJP9p7eDA2xdVe4oJmZYg/edit?usp=sharing",
   },
   {
+    label: "Product Design · 0→1",
+    title: "Traijo",
+    subtitle: "Turning a wellness marketplace idea into an MVP",
+    description:
+      "I shaped Traijo from early research and product strategy to a development-ready experience, covering the marketplace, practitioner workspace, design system, and AI-assisted tools",
+    href: "https://docs.google.com/presentation/d/1ytQegK9FC-UhwF8X1f0l6u9smFwpOQ65e0rQtCGuHzM/edit?usp=sharing",
+  },
+  {
     label: "Marketplace Launch",
     title: "Karincagibi MVP version",
     subtitle: "Launching a services marketplace for a new market",
@@ -145,14 +153,6 @@ export const caseStudies = [
     description:
       "Led product design across trust & safety, payments, specialist tools, user research, design systems, and brand evolution - from key user flows to a cross-platform system of 200+ components",
     href: "https://app.notion.com/p/Kabanchik-3a659807bfac80edb4c3d64e07c0888d",
-  },
-  {
-    label: "Product Design · 0→1",
-    title: "Traijo",
-    subtitle: "Turning a wellness marketplace idea into an MVP",
-    description:
-      "I shaped Traijo from early research and product strategy to a development-ready experience, covering the marketplace, practitioner workspace, design system, and AI-assisted tools",
-    href: "https://docs.google.com/presentation/d/1ytQegK9FC-UhwF8X1f0l6u9smFwpOQ65e0rQtCGuHzM/edit?usp=sharing",
   },
   {
     label: "Volunteer Platform",
