@@ -94,7 +94,7 @@ export const stats = [
   { value: "10+", label: "Years in digital design" },
   { value: "6+", label: "Years in Product Design" },
   { value: "350+", label: "Design system components" },
-  { value: "4", label: "Domains: Marketplace, GovTech, B2B, Startups" },
+  { value: "5", label: "Domains: Marketplace, GovTech, B2B, B2C, Startups" },
 ];
 
 export const workCards = [
