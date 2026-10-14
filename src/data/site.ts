@@ -138,6 +138,26 @@ export const randomFacts = [
     image: "/assets/random-facts/image-8.png",
     alt: "Illustration of scales balancing design work and rest",
   },
+  {
+    body: "Ate an entire Kyiv cake when my MacBook with years of source files died",
+    image: "/assets/random-facts/image-9.png",
+    alt: "Illustration of a Kyiv cake beside a damaged MacBook",
+  },
+  {
+    body: "A typical humanities person, but I chose geometry for my final exam — and did pretty well",
+    image: "/assets/random-facts/image-10.png",
+    alt: "Illustration of geometry tools and a notebook with a high grade",
+  },
+  {
+    body: "Wore braces for five years straight",
+    image: "/assets/random-facts/image-11.png",
+    alt: "Illustration of a smile with braces and the number five",
+  },
+  {
+    body: "Drawing is my personal therapy and my favorite way to reset",
+    image: "/assets/random-facts/image-12.png",
+    alt: "Illustration of a hand drawing in a sketchbook",
+  },
 ];
 
 export const navItems = [
