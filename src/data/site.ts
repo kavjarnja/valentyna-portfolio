@@ -82,11 +82,71 @@ export const galleryRows = [
   },
 ];
 
+export const atWorkSlides = [
+  { image: "/assets/at-work/photo-1.png", alt: "UX conference notebooks and stickers" },
+  { image: "/assets/at-work/photo-2.png", alt: "Valentyna at the EVO holiday photo zone" },
+  { image: "/assets/at-work/photo-3.png", alt: "Valentyna at a product event with a BetterMe character and event wristband" },
+  { image: "/assets/at-work/photo-4.png", alt: "Team moments at a company event" },
+  { image: "/assets/at-work/photo-5.png", alt: "Valentyna attending the Servant service design conference" },
+  { image: "/assets/at-work/photo-6.png", alt: "Creative team workshop with hand-painted props" },
+  { image: "/assets/at-work/photo-7.png", alt: "Valentyna and teammates celebrating an award" },
+  { image: "/assets/at-work/photo-8.png", alt: "Behind the scenes at a creative photo shoot" },
+  { image: "/assets/at-work/photo-9.png", alt: "Kabanchik team gatherings" },
+  { image: "/assets/at-work/photo-10.png", alt: "Team moments at outdoor and holiday events" },
+  { image: "/assets/at-work/photo-11.png", alt: "Valentyna at a design meetup" },
+  { image: "/assets/at-work/photo-12.png", alt: "Valentyna with her artwork" },
+];
+
+export const randomFacts = [
+  {
+    body: "I worked in field archaeology, including in the Chornobyl Exclusion Zone",
+    image: "/assets/random-facts/image-1.png",
+    alt: "Illustration of an archaeological stone in the Chornobyl Exclusion Zone",
+  },
+  {
+    body: "I once got lost in a swamp during an orienteering trip — and a roe deer literally led me back to dry land",
+    image: "/assets/random-facts/image-2.png",
+    alt: "Illustration of a roe deer",
+  },
+  {
+    body: "I spent two weeks camping without basic amenities — the nearest lake was our shower",
+    image: "/assets/random-facts/image-3.png",
+    alt: "Illustration of a tent beside a mountain lake",
+  },
+  {
+    body: "I’ve been an Okean Elzy fan since I was 9. For my music school graduation, I performed “Mene” with an accompaniment I figured out by ear",
+    image: "/assets/random-facts/image-4.png",
+    alt: "Illustration of an Okean Elzy vinyl record",
+  },
+  {
+    body: "I performed with a choir at the National Philharmonic of Ukraine",
+    image: "/assets/random-facts/image-5.png",
+    alt: "Illustration of a choir performing",
+  },
+  {
+    body: "For an e-commerce conference, I designed a life-size David in a blazer — basically a photo prop made for hugs",
+    image: "/assets/random-facts/image-6.png",
+    alt: "Illustration of the David statue wearing a blazer and sunglasses",
+  },
+  {
+    body: "As a wedding gift for friends, I created a fictional alcohol brand called “Zalyiochi”",
+    image: "/assets/random-facts/image-7.png",
+    alt: "Illustration of a bottle from the fictional Zalyiochi brand",
+  },
+  {
+    body: "One overly intense design internship cost me 5 kg — work-life balance stopped being just a theory after that",
+    image: "/assets/random-facts/image-8.png",
+    alt: "Illustration of scales balancing design work and rest",
+  },
+];
+
 export const navItems = [
   { label: "About", href: "#about" },
   { label: "Case Studies", href: "#case-studies" },
   { label: "Recommendations", href: "#recommendations" },
   { label: "Graphic Design", href: "#graphic-design" },
+  { label: "Beyond Work", href: "#at-work" },
+  { label: "Random Facts", href: "#random-facts" },
   { label: "Contact", href: "#contact" },
 ];
 

@@ -1,0 +1,122 @@
+---
+import Icon from "./Icon.astro";
+import { randomFacts } from "../data/site";
+---
+
+<div class="random-facts-slider" data-random-facts-slider>
+  <div
+    class="random-facts-stage"
+    aria-label="Random facts carousel"
+    aria-live="polite"
+    aria-roledescription="carousel"
+    tabindex="0"
+  >
+    {randomFacts.map((fact, index) => (
+      <article
+        class="random-fact-card"
+        data-random-fact={index}
+        data-position={index === 0 ? "far-left" : index === 1 ? "left" : index === 2 ? "active" : index === 3 ? "right" : index === 4 ? "far-right" : "hidden-right"}
+        aria-hidden={index <= 3 ? "false" : "true"}
+      >
+        <div class="random-fact-card__copy">
+          <p>{fact.body}</p>
+        </div>
+        {fact.image ? (
+          <img src={fact.image} alt={fact.alt} loading="lazy" />
+        ) : (
+          <div class="random-fact-card__placeholder" aria-hidden="true"></div>
+        )}
+      </article>
+    ))}
+  </div>
+
+  <div class="random-facts-controls">
+    <button type="button" class="slider-button" data-random-facts-prev aria-label="Previous random fact">
+      <Icon name="arrow-left" />
+    </button>
+    <button type="button" class="slider-button" data-random-facts-next aria-label="Next random fact">
+      <Icon name="chevron-right" />
+    </button>
+  </div>
+</div>
+
+<script>
+  const randomFactsSlider = document.querySelector("[data-random-facts-slider]");
+
+  if (randomFactsSlider) {
+    const stage = randomFactsSlider.querySelector(".random-facts-stage");
+    const slides = [...randomFactsSlider.querySelectorAll("[data-random-fact]")];
+    let active = 2;
+    let pointerStart = 0;
+    let pointerDelta = 0;
+    let dragging = false;
+
+    const update = () => {
+      slides.forEach((slide, index) => {
+        const forwardOffset = (index - active + slides.length) % slides.length;
+        const offset = forwardOffset > slides.length / 2 ? forwardOffset - slides.length : forwardOffset;
+        const position =
+          offset === -2
+            ? "far-left"
+            : offset === -1
+              ? "left"
+              : offset === 0
+                ? "active"
+                : offset === 1
+                  ? "right"
+                  : offset === 2
+                    ? "far-right"
+                    : offset < 0
+                      ? "hidden-left"
+                      : "hidden-right";
+
+        slide.dataset.position = position;
+        slide.setAttribute("aria-hidden", ["far-left", "left", "active", "right"].includes(position) ? "false" : "true");
+      });
+
+    };
+
+    const goTo = (index) => {
+      active = (index + slides.length) % slides.length;
+      update();
+    };
+
+    randomFactsSlider.querySelector("[data-random-facts-prev]")?.addEventListener("click", () => goTo(active - 1));
+    randomFactsSlider.querySelector("[data-random-facts-next]")?.addEventListener("click", () => goTo(active + 1));
+
+    stage?.addEventListener("keydown", (event) => {
+      if (event.key === "ArrowLeft") goTo(active - 1);
+      if (event.key === "ArrowRight") goTo(active + 1);
+    });
+
+    stage?.addEventListener("pointerdown", (event) => {
+      if (event.pointerType === "mouse" && event.button !== 0) return;
+      dragging = true;
+      pointerStart = event.clientX;
+      pointerDelta = 0;
+      stage.setPointerCapture(event.pointerId);
+      stage.classList.add("is-dragging");
+    });
+
+    stage?.addEventListener("pointermove", (event) => {
+      if (!dragging) return;
+      pointerDelta = Math.max(-88, Math.min(88, event.clientX - pointerStart));
+      stage.style.setProperty("--random-facts-drag-x", `${pointerDelta}px`);
+    });
+
+    const finishDrag = (event) => {
+      if (!dragging) return;
+      dragging = false;
+      stage.releasePointerCapture?.(event.pointerId);
+      stage.classList.remove("is-dragging");
+      stage.style.setProperty("--random-facts-drag-x", "0px");
+
+      if (Math.abs(pointerDelta) >= 48) goTo(active + (pointerDelta < 0 ? 1 : -1));
+      pointerDelta = 0;
+    };
+
+    stage?.addEventListener("pointerup", finishDrag);
+    stage?.addEventListener("pointercancel", finishDrag);
+    update();
+  }
+</script>

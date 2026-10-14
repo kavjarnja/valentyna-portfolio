@@ -4,6 +4,8 @@ import Button from "../components/Button.astro";
 import CaseCard from "../components/CaseCard.astro";
 import Icon from "../components/Icon.astro";
 import RecommendationSlider from "../components/RecommendationSlider.astro";
+import AtWorkSlider from "../components/AtWorkSlider.astro";
+import RandomFactsSlider from "../components/RandomFactsSlider.astro";
 import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } from "../data/site";
 ---
 
@@ -142,6 +144,7 @@ import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } f
 
     <section class="section gallery-section" id="graphic-design">
       <div class="radial radial-pink gallery-radial" aria-hidden="true"></div>
+      <div class="radial gallery-radial-bottom" aria-hidden="true"></div>
       <div class="section-inner">
         <h2 class="section-title gallery-title">Creativity <span>Beyond</span> Interfaces</h2>
         <p class="gallery-intro">While Product Design is my primary focus, I also enjoy creating visual identities and marketing assets that strengthen product communication.</p>
@@ -168,6 +171,36 @@ import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } f
               </div>
           ))}
         </div>
+      </div>
+    </section>
+
+    <section class="section at-work-section" id="at-work">
+      <div class="radial radial-purple at-work-radial-1" aria-hidden="true"></div>
+      <div class="radial radial-pink-rich at-work-radial-2" aria-hidden="true"></div>
+      <span class="ghost-text at-work-ghost">curiosity</span>
+      <div class="section-inner at-work-inner">
+        <div class="at-work-copy">
+          <h2>A <span>Little More</span><br />Than Work</h2>
+          <p>
+            I'm drawn to new experiences, people, and things that broaden my perspective and visual awareness. Imagine standing at a train station: if the choice is between getting on a train to explore somewhere new or seeing someone off and heading back home, I'm always the one already on the train.
+          </p>
+          <p>
+            Conferences, team moments, drawing, or board games are simply different expressions of that curiosity about the world
+          </p>
+        </div>
+        <AtWorkSlider />
+      </div>
+    </section>
+
+    <section class="section random-facts-section" id="random-facts">
+      <div class="radial random-facts-radial" aria-hidden="true"></div>
+      <span class="ghost-text random-facts-ghost">random facts</span>
+      <div class="section-inner random-facts-inner">
+        <div class="random-facts-heading">
+          <h2 class="section-title"><span>Random Facts</span> About Me</h2>
+          <p>The things you won't find on my resume, but that make one thing clear: I'm a real person, not AI</p>
+        </div>
+        <RandomFactsSlider />
       </div>
     </section>
 
