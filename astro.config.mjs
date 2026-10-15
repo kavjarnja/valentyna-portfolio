@@ -4,7 +4,5 @@ import vercel from "@astrojs/vercel";
 export default defineConfig({
   site: "https://valentyna-portfolio.vercel.app",
   output: "server",
-  adapter: vercel({
-    webAnalytics: { enabled: true },
-  }),
+  adapter: vercel(),
 });
