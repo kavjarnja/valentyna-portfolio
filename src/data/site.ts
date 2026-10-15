@@ -95,6 +95,10 @@ export const atWorkSlides = [
   { image: "/assets/at-work/photo-10.png", alt: "Team moments at outdoor and holiday events" },
   { image: "/assets/at-work/photo-11.png", alt: "Valentyna at a design meetup" },
   { image: "/assets/at-work/photo-12.png", alt: "Valentyna with her artwork" },
+  { image: "/assets/at-work/photo-13.png", alt: "Valentyna visiting an art exhibition" },
+  { image: "/assets/at-work/photo-14.png", alt: "Valentyna with colleagues at team events" },
+  { image: "/assets/at-work/photo-15.png", alt: "Prom team stickers and brand materials" },
+  { image: "/assets/at-work/photo-16.png", alt: "Team moments at holiday and creative events" },
 ];
 
 export const randomFacts = [
