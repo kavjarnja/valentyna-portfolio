@@ -6,7 +6,8 @@ import Icon from "../components/Icon.astro";
 import RecommendationSlider from "../components/RecommendationSlider.astro";
 import AtWorkSlider from "../components/AtWorkSlider.astro";
 import RandomFactsSlider from "../components/RandomFactsSlider.astro";
-import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } from "../data/site";
+import SharePortfolio from "../components/SharePortfolio.astro";
+import { assets, caseStudies, galleryRows, links, navItems, portfolioUrl, stats, workCards } from "../data/site";
 ---
 
 <BaseLayout
@@ -226,4 +227,5 @@ import { assets, caseStudies, galleryRows, links, navItems, stats, workCards } f
       </footer>
     </section>
   </main>
+  <SharePortfolio url={portfolioUrl} />
 </BaseLayout>

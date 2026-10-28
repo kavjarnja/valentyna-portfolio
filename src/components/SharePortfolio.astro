@@ -1,0 +1,649 @@
+---
+import QRCode from "qrcode";
+
+interface Props {
+  url: string;
+}
+
+const { url } = Astro.props;
+const qrSvg = await QRCode.toString(url, {
+  type: "svg",
+  width: 232,
+  margin: 4,
+  errorCorrectionLevel: "M",
+  color: {
+    dark: "#0a0624",
+    light: "#ffffff",
+  },
+});
+---
+
+<button class="share-fab" type="button" aria-label="Share portfolio" aria-haspopup="dialog" aria-controls="share-portfolio-dialog">
+  <svg viewBox="0 0 24 24" aria-hidden="true">
+    <path d="M17.167 4C18.5475 4.0002 19.667 5.11941 19.667 6.5C19.667 7.88059 18.5475 8.9998 17.167 9C16.5471 9 15.9808 8.77298 15.5439 8.39941L8.97754 11.6826C8.99073 11.7867 9 11.8924 9 12C9 12.1073 8.99065 12.2127 8.97754 12.3164L15.3174 15.4863C15.7747 14.9833 16.4336 14.667 17.167 14.667C18.5475 14.6672 19.667 15.7864 19.667 17.167C19.6667 18.5474 18.5474 19.6668 17.167 19.667C15.7864 19.667 14.6673 18.5475 14.667 17.167C14.667 17.0592 14.6752 16.9528 14.6885 16.8486L8.34766 13.6777C7.89033 14.1811 7.23366 14.5 6.5 14.5C5.11929 14.5 4 13.3807 4 12C4 10.6193 5.11929 9.5 6.5 9.5C7.23314 9.5 7.89036 9.81759 8.34766 10.3203L14.7471 7.12109C14.6962 6.92231 14.667 6.71464 14.667 6.5C14.667 5.11929 15.7863 4 17.167 4Z"></path>
+  </svg>
+  <span>Share</span>
+</button>
+
+<dialog class="share-dialog" id="share-portfolio-dialog" aria-labelledby="share-dialog-title" aria-describedby="share-dialog-description" tabindex="-1">
+  <button class="share-dialog__close" type="button" aria-label="Close">
+    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M16.1191 6.21967C16.412 5.92678 16.8867 5.92678 17.1796 6.21967C17.4725 6.51257 17.4725 6.98734 17.1796 7.28022L12.7597 11.6992L17.1796 16.1191C17.4725 16.412 17.4725 16.8867 17.1796 17.1796C16.8867 17.4725 16.412 17.4725 16.1191 17.1796L11.6992 12.7597L7.28021 17.1796C6.98733 17.4725 6.51254 17.4725 6.21966 17.1796C5.92678 16.8868 5.92681 16.412 6.21966 16.1191L10.6386 11.6992L6.21966 7.28022C5.92679 6.98732 5.92677 6.51256 6.21966 6.21967C6.51255 5.92679 6.98732 5.9268 7.28021 6.21967L11.6992 10.6386L16.1191 6.21967Z"></path></svg>
+  </button>
+
+  <div class="share-dialog__content">
+    <h2 id="share-dialog-title">Share this portfolio</h2>
+    <p id="share-dialog-description">Scan the QR code to open this portfolio on another device or share it with someone nearby</p>
+
+    <div class="share-qr" aria-label={`QR code for ${url}`} set:html={qrSvg}></div>
+
+    <div class="share-url">
+      <svg class="share-url__link-icon" viewBox="0 0 24 24" aria-hidden="true">
+        <path d="M10.2686 16.4531L8.84165 17.8383C8.46747 18.2121 7.95997 18.4221 7.4308 18.4221C6.90163 18.4221 6.39414 18.2121 6.01996 17.8383C5.64578 17.4645 5.43557 16.9575 5.43557 16.4289C5.43557 15.9003 5.64578 15.3933 6.01996 15.0195L9.68009 11.3549C10.0393 10.9949 10.5234 10.7866 11.0321 10.7731C11.5408 10.7596 12.0352 10.942 12.4131 11.2825L12.5098 11.363C12.6627 11.5125 12.8688 11.5953 13.0827 11.593C13.2967 11.5907 13.5009 11.5036 13.6506 11.3509C13.8003 11.1982 13.8831 10.9923 13.8808 10.7786C13.8786 10.5649 13.7914 10.3608 13.6385 10.2113C13.593 10.1525 13.5446 10.0961 13.4934 10.0422C12.8052 9.44401 11.9151 9.12953 11.0035 9.16243C10.0919 9.19533 9.22687 9.57315 8.58366 10.2193L4.87516 13.8839C4.245 14.5691 3.90419 15.471 3.92391 16.4013C3.94362 17.3316 4.32233 18.2183 4.98096 18.8763C5.63958 19.5343 6.52719 19.9126 7.45841 19.9323C8.38964 19.952 9.29248 19.6115 9.97838 18.982L11.3731 17.6209C11.5108 17.4708 11.5865 17.2742 11.585 17.0706C11.5834 16.867 11.5048 16.6715 11.3648 16.5236C11.2248 16.3756 11.034 16.286 10.8306 16.2729C10.6272 16.2599 10.4264 16.3242 10.2686 16.4531V16.4531ZM18.8869 4.98431C18.2087 4.31101 17.2914 3.93311 16.3352 3.93311C15.3791 3.93311 14.4618 4.31101 13.7836 4.98431L12.3889 6.34542C12.2512 6.49551 12.1755 6.69212 12.177 6.89572C12.1786 7.09931 12.2572 7.29476 12.3972 7.44275C12.5372 7.59074 12.7281 7.68029 12.9314 7.69336C13.1348 7.70644 13.3356 7.64208 13.4934 7.51324L14.8881 6.12797C15.2623 5.75416 15.7698 5.54416 16.299 5.54416C16.8281 5.54416 17.3356 5.75416 17.7098 6.12797C18.084 6.50177 18.2942 7.00876 18.2942 7.5374C18.2942 8.06604 18.084 8.57303 17.7098 8.94683L14.0497 12.6114C13.6904 12.9714 13.2064 13.1797 12.6977 13.1932C12.189 13.2067 11.6945 13.0244 11.3167 12.6838L11.2199 12.6033C11.067 12.4538 10.861 12.3711 10.647 12.3733C10.4331 12.3756 10.2288 12.4627 10.0792 12.6154C9.92949 12.7681 9.84668 12.974 9.84894 13.1877C9.85121 13.4014 9.93837 13.6055 10.0913 13.755C10.1498 13.8148 10.2117 13.8713 10.2767 13.9241C10.9657 14.5205 11.8554 14.8338 12.7665 14.8009C13.6775 14.768 14.5422 14.3914 15.1864 13.747L18.8546 10.0824C19.5329 9.40919 19.917 8.49519 19.923 7.54001C19.9291 6.58484 19.5566 5.66607 18.8869 4.98431V4.98431Z"></path>
+      </svg>
+      <span class="share-url__text" title={url}>{url}</span>
+      <button class="share-copy" type="button" aria-label="Copy link" data-share-url={url}>
+        <span>Copy link</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M15.1111 18.4H8.88889C8.27005 18.4 7.67656 18.1471 7.23897 17.6971C6.80139 17.247 6.55556 16.6365 6.55556 16V8C6.55556 7.78783 6.47361 7.58434 6.32775 7.43431C6.18189 7.28429 5.98406 7.2 5.77778 7.2C5.5715 7.2 5.37367 7.28429 5.22781 7.43431C5.08194 7.58434 5 7.78783 5 8V16C5 17.0609 5.40972 18.0783 6.13903 18.8284C6.86834 19.5786 7.85749 20 8.88889 20H15.1111C15.3174 20 15.5152 19.9157 15.6611 19.7657C15.8069 19.6157 15.8889 19.4122 15.8889 19.2C15.8889 18.9878 15.8069 18.7843 15.6611 18.6343C15.5152 18.4843 15.3174 18.4 15.1111 18.4ZM19 9.552C18.9919 9.47851 18.9763 9.4061 18.9533 9.336V9.264C18.9159 9.18174 18.8661 9.10613 18.8056 9.04V9.04L14.1389 4.24C14.0746 4.17777 14.0011 4.12646 13.9211 4.088H13.8511L13.6022 4H10.4444C9.82561 4 9.23211 4.25286 8.79453 4.70294C8.35694 5.15303 8.11111 5.76348 8.11111 6.4V14.4C8.11111 15.0365 8.35694 15.647 8.79453 16.0971C9.23211 16.5471 9.82561 16.8 10.4444 16.8H16.6667C17.2855 16.8 17.879 16.5471 18.3166 16.0971C18.7542 15.647 19 15.0365 19 14.4V9.6C19 9.6 19 9.6 19 9.552ZM14.3333 6.728L16.3478 8.8H15.1111C14.9048 8.8 14.707 8.71571 14.5611 8.56569C14.4153 8.41566 14.3333 8.21217 14.3333 8V6.728ZM17.4444 14.4C17.4444 14.6122 17.3625 14.8157 17.2166 14.9657C17.0708 15.1157 16.8729 15.2 16.6667 15.2H10.4444C10.2382 15.2 10.0403 15.1157 9.89447 14.9657C9.74861 14.8157 9.66667 14.6122 9.66667 14.4V6.4C9.66667 6.18783 9.74861 5.98434 9.89447 5.83431C10.0403 5.68429 10.2382 5.6 10.4444 5.6H12.7778V8C12.7778 8.63652 13.0236 9.24697 13.4612 9.69706C13.8988 10.1471 14.4923 10.4 15.1111 10.4H17.4444V14.4Z"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<div class="share-toast" role="status" aria-live="polite" aria-atomic="true" popover="manual">
+  <span class="share-toast__indicator" aria-hidden="true"></span>
+  Link copied
+</div>
+
+<script>
+  const shareButton = document.querySelector<HTMLButtonElement>(".share-fab");
+  const shareDialog = document.querySelector<HTMLDialogElement>(".share-dialog");
+  const closeButton = shareDialog?.querySelector<HTMLButtonElement>(".share-dialog__close");
+  const copyButton = shareDialog?.querySelector<HTMLButtonElement>(".share-copy");
+  const toast = document.querySelector<HTMLElement>(".share-toast");
+  let scrollPosition = 0;
+  let toastTimer: ReturnType<typeof setTimeout> | undefined;
+
+  const closeShareDialog = () => {
+    if (!shareDialog?.open || shareDialog.classList.contains("is-closing")) return;
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      shareDialog.close();
+      return;
+    }
+
+    shareDialog.classList.add("is-closing");
+    setTimeout(() => shareDialog.close(), 160);
+  };
+
+  shareButton?.addEventListener("click", () => {
+    if (!shareDialog) return;
+    scrollPosition = window.scrollY;
+    document.body.classList.add("share-modal-open");
+    shareDialog.showModal();
+    requestAnimationFrame(() => shareDialog.focus({ preventScroll: true }));
+  });
+
+  closeButton?.addEventListener("click", closeShareDialog);
+
+  shareDialog?.addEventListener("cancel", (event) => {
+    event.preventDefault();
+    closeShareDialog();
+  });
+
+  shareDialog?.addEventListener("close", () => {
+    shareDialog.classList.remove("is-closing");
+    document.body.classList.remove("share-modal-open");
+    clearTimeout(toastTimer);
+    toast?.classList.remove("is-visible");
+    if (toast && "hidePopover" in toast && toast.matches(":popover-open")) toast.hidePopover();
+    window.scrollTo({ top: scrollPosition, behavior: "instant" });
+    shareButton?.focus({ preventScroll: true });
+  });
+
+  copyButton?.addEventListener("click", async () => {
+    const url = copyButton.dataset.shareUrl;
+    if (!url || !navigator.clipboard) return;
+
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      return;
+    }
+
+    if (!toast) return;
+    clearTimeout(toastTimer);
+    if ("showPopover" in toast && !toast.matches(":popover-open")) toast.showPopover();
+    toast.classList.remove("is-visible");
+    requestAnimationFrame(() => toast.classList.add("is-visible"));
+    toastTimer = setTimeout(() => {
+      toast.classList.remove("is-visible");
+      setTimeout(() => {
+        if ("hidePopover" in toast && toast.matches(":popover-open")) toast.hidePopover();
+      }, 240);
+    }, 2400);
+  });
+</script>
+
+<style>
+  .share-fab {
+    --share-pulse-duration: 2.4s;
+    --share-halo-spread: 18px;
+    --share-glow-opacity: 0.32;
+
+    position: fixed;
+    right: 40px;
+    bottom: 48px;
+    z-index: 60;
+    isolation: isolate;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 121px;
+    height: 48px;
+    padding: 12px 20px;
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    border-radius: var(--radius-pill);
+    color: var(--content-text-primary);
+    background: var(--primary-500);
+    box-shadow: 0 0 0 1px rgba(99, 66, 248, 0.08), 0 0 8px rgba(99, 66, 248, 0.1);
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 22px;
+    transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    animation: share-border-breath var(--share-pulse-duration) ease-in-out infinite;
+  }
+
+  .share-fab::after {
+    content: "";
+    position: absolute;
+    inset: calc(var(--share-halo-spread) * -0.5);
+    z-index: -1;
+    border-radius: inherit;
+    background: rgba(99, 66, 248, 0.3);
+    box-shadow: 0 0 18px rgba(99, 66, 248, 0.22), 0 0 14px rgba(255, 65, 190, 0.12);
+    filter: blur(9px);
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(1);
+    transform-origin: center;
+    animation: share-halo var(--share-pulse-duration) ease-in-out infinite;
+  }
+
+  .share-fab:hover {
+    background: var(--primary-600);
+  }
+
+  .share-fab:active {
+    transform: scale(0.96);
+    background: var(--primary-700);
+  }
+
+  .share-fab svg,
+  .share-dialog__close svg,
+  .share-url svg {
+    width: 24px;
+    height: 24px;
+    flex: 0 0 24px;
+    fill: currentColor;
+    stroke: none;
+  }
+
+  .share-dialog {
+    width: 712px;
+    height: 610px;
+    max-width: calc(100vw - 48px);
+    max-height: calc(100dvh - 48px);
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.44);
+    border-radius: 24px;
+    color: var(--content-text-primary);
+    background: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 32px 80px rgba(0, 0, 0, 0.35);
+    backdrop-filter: blur(18px);
+  }
+
+  .share-dialog::before,
+  .share-dialog::after {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    filter: blur(52px);
+    pointer-events: none;
+  }
+
+  .share-dialog::before {
+    top: -90px;
+    left: 26px;
+    background: rgba(99, 66, 248, 0.76);
+  }
+
+  .share-dialog::after {
+    right: -80px;
+    bottom: -80px;
+    background: rgba(99, 66, 248, 0.62);
+  }
+
+  .share-dialog::backdrop {
+    background: rgba(10, 6, 36, 0.72);
+    backdrop-filter: blur(10px);
+  }
+
+  .share-dialog[open] {
+    animation: share-dialog-in 220ms ease-out both;
+  }
+
+  .share-dialog:focus {
+    outline: none;
+  }
+
+  .share-dialog.is-closing {
+    animation: share-dialog-out 160ms ease-in both;
+  }
+
+  .share-dialog__close {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    z-index: 2;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    padding: 0;
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    border-radius: 50%;
+    color: var(--content-text-primary);
+    background: rgba(255, 255, 255, 0.04);
+    transition: background 160ms ease, border-color 160ms ease;
+  }
+
+  .share-dialog__close:hover {
+    border-color: rgba(255, 255, 255, 0.55);
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  .share-dialog__close:focus-visible {
+    outline-color: rgba(255, 255, 255, 0.68);
+    outline-offset: 2px;
+  }
+
+  .share-dialog__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 56px 48px 48px;
+    text-align: center;
+  }
+
+  .share-dialog h2 {
+    margin: 0;
+    font-family: var(--font-primary);
+    font-size: 48px;
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .share-dialog__content > p {
+    width: min(100%, 570px);
+    margin: 24px 0 28px;
+    color: var(--content-text-primary);
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .share-qr {
+    display: grid;
+    place-items: center;
+    width: 280px;
+    height: 280px;
+    padding: 24px;
+    border-radius: 40px;
+    background: #fff;
+  }
+
+  .share-qr :global(svg) {
+    display: block;
+    width: 232px;
+    height: 232px;
+  }
+
+  .share-url {
+    display: flex;
+    align-items: center;
+    width: 430px;
+    height: 48px;
+    margin-top: 28px;
+    padding: 4px 4px 4px 16px;
+    border-radius: var(--radius-pill);
+    color: var(--surface-background);
+    background: #fff;
+  }
+
+  .share-url__link-icon {
+    color: var(--primary-500);
+  }
+
+  .share-url__link-icon path,
+  .share-copy svg path {
+    transform: scale(1.12);
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  .share-url__text {
+    min-width: 0;
+    margin-left: 10px;
+    overflow: hidden;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .share-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    height: 40px;
+    margin-left: auto;
+    padding: 9px 20px;
+    border: 0;
+    border-radius: var(--radius-pill);
+    color: var(--content-text-primary);
+    background: var(--primary-500);
+    font-size: 14px;
+    line-height: 22px;
+    transition: background 160ms ease;
+  }
+
+  .share-copy:hover {
+    background: var(--primary-700);
+  }
+
+  .share-copy svg {
+    display: none;
+  }
+
+  .share-toast {
+    position: fixed;
+    inset: auto auto 32px 50%;
+    z-index: 120;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: max-content;
+    margin: 0;
+    padding: 12px 18px 12px 14px;
+    border: 1px solid rgba(150, 130, 255, 0.58);
+    border-radius: var(--radius-pill);
+    color: var(--content-text-primary);
+    background: rgba(24, 17, 61, 0.96);
+    box-shadow: 0 0 0 1px rgba(99, 66, 248, 0.18), 0 14px 38px rgba(10, 6, 36, 0.48), 0 0 26px rgba(99, 66, 248, 0.36);
+    backdrop-filter: blur(16px);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 22px;
+    opacity: 0;
+    transform: translate(-50%, 18px) scale(0.92);
+    transition: opacity 220ms ease, transform 280ms cubic-bezier(0.2, 0.9, 0.25, 1.15);
+  }
+
+  .share-toast.is-visible {
+    opacity: 1;
+    transform: translate(-50%, 0) scale(1);
+  }
+
+  .share-toast__indicator {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #b5a8ff;
+    box-shadow: 0 0 12px rgba(181, 168, 255, 0.95);
+  }
+
+  @keyframes share-border-breath {
+    0%,
+    100% {
+      border-color: rgba(255, 255, 255, 0.75);
+      box-shadow: 0 0 0 1px rgba(99, 66, 248, 0.08), 0 0 8px rgba(99, 66, 248, 0.1);
+    }
+
+    46% {
+      border-color: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 0 0 2px rgba(126, 101, 255, calc(var(--share-glow-opacity) * 0.42)),
+        0 0 20px rgba(99, 66, 248, var(--share-glow-opacity)),
+        0 0 20px rgba(255, 65, 190, 0.06);
+    }
+  }
+
+  @keyframes share-halo {
+    0% {
+      opacity: 0.14;
+      transform: scale(1);
+    }
+
+    40% {
+      opacity: 0.36;
+    }
+
+    100% {
+      opacity: 0;
+      transform: scale(1.12);
+    }
+  }
+
+  :global(body.share-modal-open) {
+    overflow: hidden;
+  }
+
+  @keyframes share-dialog-in {
+    from {
+      opacity: 0;
+      transform: translateY(12px);
+    }
+
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes share-dialog-out {
+    from {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    to {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+  }
+
+  @media (max-height: 680px) and (min-width: 761px) {
+    .share-dialog__content {
+      padding-top: 40px;
+    }
+
+    .share-dialog h2 {
+      font-size: 42px;
+    }
+
+    .share-dialog__content > p {
+      margin: 16px 0 20px;
+    }
+
+    .share-qr {
+      width: 240px;
+      height: 240px;
+      padding: 18px;
+    }
+
+    .share-qr :global(svg) {
+      width: 204px;
+      height: 204px;
+    }
+
+    .share-url {
+      margin-top: 20px;
+    }
+  }
+
+  @media (max-width: 760px) {
+    .share-fab {
+      right: 18px;
+      bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+      width: 50px;
+      height: 48px;
+      padding: 12px 13px;
+    }
+
+    .share-fab span {
+      display: none;
+    }
+
+    .share-dialog {
+      width: 100vw;
+      height: 100dvh;
+      max-width: none;
+      max-height: none;
+      border: 0;
+      border-radius: 0;
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    .share-dialog__close {
+      top: max(16px, env(safe-area-inset-top));
+      right: 16px;
+    }
+
+    .share-dialog__content {
+      justify-content: center;
+      padding: max(76px, calc(env(safe-area-inset-top) + 68px)) 16px max(28px, calc(env(safe-area-inset-bottom) + 20px));
+      transform: translateY(14px);
+    }
+
+    .share-dialog h2 {
+      width: 100%;
+      max-width: 330px;
+      font-size: 48px;
+      line-height: 1.12;
+    }
+
+    .share-dialog__content > p {
+      max-width: 350px;
+      margin: 24px 0 18px;
+    }
+
+    .share-qr {
+      width: min(294px, calc(100vw - 48px));
+      height: min(294px, calc(100vw - 48px));
+      padding: clamp(18px, 6vw, 24px);
+      border-radius: 40px;
+    }
+
+    .share-qr :global(svg) {
+      width: 100%;
+      height: 100%;
+    }
+
+    .share-url {
+      width: min(356px, calc(100vw - 32px));
+      height: 52px;
+      margin-top: 16px;
+      padding: 4px 4px 4px 16px;
+      border-radius: 16px;
+    }
+
+    .share-url__link-icon {
+      display: none;
+    }
+
+    .share-url__text {
+      margin-left: 0;
+      font-size: 12px;
+      line-height: 18px;
+    }
+
+    .share-copy {
+      width: 44px;
+      height: 44px;
+      padding: 10px;
+      color: var(--primary-500);
+      background: transparent;
+    }
+
+    .share-copy:hover {
+      background: rgba(99, 66, 248, 0.1);
+    }
+
+    .share-copy span {
+      display: none;
+    }
+
+    .share-copy svg {
+      display: block;
+      width: 24px;
+      height: 24px;
+      flex-basis: 24px;
+    }
+
+    .share-toast {
+      bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
+    }
+  }
+
+  @media (max-width: 359px), (max-height: 740px) and (max-width: 760px) {
+    .share-dialog__content {
+      padding-top: 68px;
+    }
+
+    .share-dialog h2 {
+      font-size: 40px;
+    }
+
+    .share-dialog__content > p {
+      margin: 14px 0;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .share-qr {
+      width: min(240px, calc(100vw - 64px));
+      height: min(240px, calc(100vw - 64px));
+      border-radius: 32px;
+    }
+
+    .share-url {
+      margin-top: 12px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .share-fab,
+    .share-fab::after,
+    .share-dialog[open],
+    .share-toast {
+      animation: none;
+      transition: none;
+    }
+
+    .share-fab::after {
+      opacity: 0;
+    }
+  }
+</style>

@@ -5,6 +5,8 @@ export const links = {
   cv: "/assets/cv/valentyna-mylashevska-cv.pdf",
 };
 
+export const portfolioUrl = "https://valentyna-portfolio.vercel.app/";
+
 export const assets = {
   avatar: "/assets/hero/avatar-photoroom.png",
   caseStudies: [
