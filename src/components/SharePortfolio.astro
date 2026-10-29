@@ -18,12 +18,14 @@ const qrSvg = await QRCode.toString(url, {
 });
 ---
 
-<button class="share-fab" type="button" aria-label="Share portfolio" aria-haspopup="dialog" aria-controls="share-portfolio-dialog">
-  <svg viewBox="0 0 24 24" aria-hidden="true">
-    <path d="M17.167 4C18.5475 4.0002 19.667 5.11941 19.667 6.5C19.667 7.88059 18.5475 8.9998 17.167 9C16.5471 9 15.9808 8.77298 15.5439 8.39941L8.97754 11.6826C8.99073 11.7867 9 11.8924 9 12C9 12.1073 8.99065 12.2127 8.97754 12.3164L15.3174 15.4863C15.7747 14.9833 16.4336 14.667 17.167 14.667C18.5475 14.6672 19.667 15.7864 19.667 17.167C19.6667 18.5474 18.5474 19.6668 17.167 19.667C15.7864 19.667 14.6673 18.5475 14.667 17.167C14.667 17.0592 14.6752 16.9528 14.6885 16.8486L8.34766 13.6777C7.89033 14.1811 7.23366 14.5 6.5 14.5C5.11929 14.5 4 13.3807 4 12C4 10.6193 5.11929 9.5 6.5 9.5C7.23314 9.5 7.89036 9.81759 8.34766 10.3203L14.7471 7.12109C14.6962 6.92231 14.667 6.71464 14.667 6.5C14.667 5.11929 15.7863 4 17.167 4Z"></path>
-  </svg>
-  <span>Share</span>
-</button>
+<div class="share-fab-shell">
+  <button class="share-fab" type="button" aria-label="Share portfolio" aria-haspopup="dialog" aria-controls="share-portfolio-dialog">
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17.167 4C18.5475 4.0002 19.667 5.11941 19.667 6.5C19.667 7.88059 18.5475 8.9998 17.167 9C16.5471 9 15.9808 8.77298 15.5439 8.39941L8.97754 11.6826C8.99073 11.7867 9 11.8924 9 12C9 12.1073 8.99065 12.2127 8.97754 12.3164L15.3174 15.4863C15.7747 14.9833 16.4336 14.667 17.167 14.667C18.5475 14.6672 19.667 15.7864 19.667 17.167C19.6667 18.5474 18.5474 19.6668 17.167 19.667C15.7864 19.667 14.6673 18.5475 14.667 17.167C14.667 17.0592 14.6752 16.9528 14.6885 16.8486L8.34766 13.6777C7.89033 14.1811 7.23366 14.5 6.5 14.5C5.11929 14.5 4 13.3807 4 12C4 10.6193 5.11929 9.5 6.5 9.5C7.23314 9.5 7.89036 9.81759 8.34766 10.3203L14.7471 7.12109C14.6962 6.92231 14.667 6.71464 14.667 6.5C14.667 5.11929 15.7863 4 17.167 4Z"></path>
+    </svg>
+    <span>Share</span>
+  </button>
+</div>
 
 <dialog class="share-dialog" id="share-portfolio-dialog" aria-labelledby="share-dialog-title" aria-describedby="share-dialog-description" tabindex="-1">
   <button class="share-dialog__close" type="button" aria-label="Close">
@@ -126,44 +128,55 @@ const qrSvg = await QRCode.toString(url, {
 </script>
 
 <style>
-  .share-fab {
+  .share-fab-shell {
     --share-pulse-duration: 2.4s;
-    --share-halo-spread: 18px;
-    --share-glow-opacity: 0.32;
-
+    --share-halo-spread: 12px;
+    --share-glow-opacity: 0.46;
+    --share-hover-background: #f6508f;
     position: fixed;
     right: 40px;
     bottom: 48px;
     z-index: 60;
     isolation: isolate;
+    width: 121px;
+    height: 48px;
+    border-radius: var(--radius-pill);
+  }
+
+  .share-fab {
+    position: relative;
+    z-index: 1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
-    width: 121px;
-    height: 48px;
+    width: 100%;
+    height: 100%;
     padding: 12px 20px;
+    appearance: none;
     border: 1px solid rgba(255, 255, 255, 0.75);
     border-radius: var(--radius-pill);
     color: var(--content-text-primary);
-    background: var(--primary-500);
+    background: var(--secondary-500);
     box-shadow: 0 0 0 1px rgba(99, 66, 248, 0.08), 0 0 8px rgba(99, 66, 248, 0.1);
+    filter: none;
+    text-shadow: none;
     font-size: 14px;
     font-weight: 500;
     line-height: 22px;
-    transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+    transition: transform 160ms ease, background 160ms ease, border-color 160ms ease;
     animation: share-border-breath var(--share-pulse-duration) ease-in-out infinite;
   }
 
-  .share-fab::after {
+  .share-fab-shell::after {
     content: "";
     position: absolute;
     inset: calc(var(--share-halo-spread) * -0.5);
     z-index: -1;
     border-radius: inherit;
-    background: rgba(99, 66, 248, 0.3);
-    box-shadow: 0 0 18px rgba(99, 66, 248, 0.22), 0 0 14px rgba(255, 65, 190, 0.12);
-    filter: blur(9px);
+    background: rgba(99, 66, 248, 0.48);
+    box-shadow: 0 0 15px rgba(99, 66, 248, 0.36), 0 0 12px rgba(255, 65, 190, 0.14);
+    filter: blur(7px);
     opacity: 0;
     pointer-events: none;
     transform: scale(1);
@@ -172,12 +185,30 @@ const qrSvg = await QRCode.toString(url, {
   }
 
   .share-fab:hover {
-    background: var(--primary-600);
+    animation: none;
+    transform: translateY(-1px);
+    border-color: rgba(255, 255, 255, 0.95);
+    background: var(--share-hover-background);
+    box-shadow: 0 0 0 2px rgba(126, 101, 255, calc(var(--share-glow-opacity) * 0.42)),
+      0 0 14px rgba(99, 66, 248, var(--share-glow-opacity)),
+      0 0 14px rgba(255, 65, 190, 0.06);
+    text-shadow: none;
+  }
+
+  .share-fab-shell:hover::after {
+    animation: none;
+    opacity: 0.55;
+    transform: scale(1.03);
   }
 
   .share-fab:active {
     transform: scale(0.96);
-    background: var(--primary-700);
+    background: var(--share-hover-background);
+  }
+
+  .share-fab:focus-visible {
+    outline: 2px solid rgba(154, 130, 255, 0.86);
+    outline-offset: 4px;
   }
 
   .share-fab svg,
@@ -425,24 +456,24 @@ const qrSvg = await QRCode.toString(url, {
     46% {
       border-color: rgba(255, 255, 255, 0.9);
       box-shadow: 0 0 0 2px rgba(126, 101, 255, calc(var(--share-glow-opacity) * 0.42)),
-        0 0 20px rgba(99, 66, 248, var(--share-glow-opacity)),
-        0 0 20px rgba(255, 65, 190, 0.06);
+        0 0 14px rgba(99, 66, 248, var(--share-glow-opacity)),
+        0 0 14px rgba(255, 65, 190, 0.06);
     }
   }
 
   @keyframes share-halo {
     0% {
-      opacity: 0.14;
+      opacity: 0.12;
       transform: scale(1);
     }
 
     40% {
-      opacity: 0.36;
+      opacity: 0.55;
     }
 
     100% {
       opacity: 0;
-      transform: scale(1.12);
+      transform: scale(1.08);
     }
   }
 
@@ -504,11 +535,14 @@ const qrSvg = await QRCode.toString(url, {
   }
 
   @media (max-width: 760px) {
-    .share-fab {
+    .share-fab-shell {
       right: 18px;
       bottom: max(24px, calc(env(safe-area-inset-bottom) + 16px));
       width: 50px;
       height: 48px;
+    }
+
+    .share-fab {
       padding: 12px 13px;
     }
 
@@ -635,15 +669,20 @@ const qrSvg = await QRCode.toString(url, {
 
   @media (prefers-reduced-motion: reduce) {
     .share-fab,
-    .share-fab::after,
+    .share-fab-shell::after,
     .share-dialog[open],
     .share-toast {
       animation: none;
       transition: none;
     }
 
-    .share-fab::after {
+    .share-fab-shell::after {
       opacity: 0;
+    }
+
+    .share-fab-shell:hover::after {
+      opacity: 0.55;
+      transform: scale(1.03);
     }
   }
 </style>
