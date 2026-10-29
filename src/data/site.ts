@@ -203,7 +203,7 @@ export const workCards = [
   },
   {
     title: "Collaboration",
-    body: "Working closely with PMs, Developers, Researchers, and stakeholders",
+    body: "Working closely with PMs, Developers, Researchers, Customer Support, and Stakeholders",
     icon: "users",
   },
 ];
